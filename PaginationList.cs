@@ -14,10 +14,10 @@ public class PaginationList<T>
 	public bool HasPreviousPage => PageNumber > 1;
 	public bool HasNextPage => PageNumber < TotalPages;
 	                                                                      //Table
-	public static async Task<PaginationList<T>> CreateAsync(IEnumerable<T> source, int pageNumber, int pageSize)
+	public static async Task<PaginationList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize)
 	{
-		var count =  source.Count();
-		var items =  source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+		var count =await  source.CountAsync();
+		var items =await  source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
 		return new PaginationList<T>(items, pageNumber, count, pageSize);
 	}
 }
